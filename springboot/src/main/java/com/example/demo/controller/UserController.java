@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-@ResponseBody
+@ResponseBody //允许前端跨域
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -20,9 +20,17 @@ public class UserController {
     @Resource
     UserMapper userMapper;
 
+
+
+
     //02-新增用户
     @PostMapping
     public Result<?> save(@RequestBody User user){ //拿到的前端对象，映射成数据库的实体
+        //判断密码是否传入
+        if(user.getPassword() == null){
+            user.setPassword("123456");
+        }
+        
         userMapper.insert(user);//插入数据库
         return Result.success();
     }
@@ -60,4 +68,30 @@ public class UserController {
     }
 
 
+    //05-用户登录
+    @PostMapping("/login")
+    public Result<?> login(@RequestBody User user){ //拿到的前端对象，映射成数据库的实体
+        //唯一的用户名和密码：对比 数据库映射的字段User  前端接受的参数user
+        User res =userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername,user.getUsername()).eq(User::getPassword,user.getPassword()));
+        if(res == null){
+            return Result.error("-1","用户名或密码错误");
+        }
+        return Result.success();
+    }
+
+    //05-用户注册
+    @PostMapping("/register")
+    public Result<?> register(@RequestBody User user){ //拿到的前端对象，映射成数据库的实体
+        //唯一的用户名和密码：对比 数据库映射的字段User  前端接受的参数user
+        User res =userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername,user.getUsername()).eq(User::getPassword,user.getPassword()));
+        if(res != null){
+            return Result.error("-1","用户名重复");
+        }
+        if(user.getPassword() == null){
+            user.setPassword("123456");
+        }
+        //插入数据
+        userMapper.insert(user);
+        return Result.success();
+    }
 }
