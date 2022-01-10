@@ -10,6 +10,7 @@ import com.example.demo.mapper.NewsMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 @ResponseBody //允许前端跨域
 @RestController
@@ -25,10 +26,10 @@ public class NewsController {
 
     //02-新增新闻
     @PostMapping
-    public Result<?> save(@RequestBody News News){ //拿到的前端对象，映射成数据库的实体
+    public Result<?> save(@RequestBody News news){ //拿到的前端对象，映射成数据库的实体
 
-
-        NewsMapper.insert(News);//插入数据库
+        news.setTime(new Date());
+        NewsMapper.insert(news);//插入数据库
         return Result.success();
     }
 
