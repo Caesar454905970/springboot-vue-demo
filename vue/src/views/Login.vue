@@ -1,92 +1,39 @@
 <template>
-<div>
-  <el-container>
-    <el-header>
-      <el-menu
-          :default-active="activeIndex2"
-          class="el-menu-demo"
-          mode="horizontal"
-          @select="handleSelect"
-          background-color="#545c64"
-          text-color="#fff"
-          active-text-color="#ffd04b">
-        <el-menu-item index="1">处理中心</el-menu-item>
-        <el-submenu index="2">
-          <template slot="title">我的工作台</template>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-          <el-menu-item index="2-3">选项3</el-menu-item>
-          <el-submenu index="2-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="2-4-1">选项1</el-menu-item>
-            <el-menu-item index="2-4-2">选项2</el-menu-item>
-            <el-menu-item index="2-4-3">选项3</el-menu-item>
-          </el-submenu>
-        </el-submenu>
-        <el-menu-item index="3" disabled>消息中心</el-menu-item>
-        <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
-      </el-menu>
-    </el-header>
-    <el-container>
-      <el-aside width="200px">
-        <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-          <el-radio-button :label="false">展开</el-radio-button>
-          <el-radio-button :label="true">收起</el-radio-button>
-        </el-radio-group>
-        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span slot="title">导航一</span>
-            </template>
-            <el-menu-item-group>
-              <span slot="title">分组一</span>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-              <span slot="title">选项4</span>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
-          </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
-          <el-menu-item index="3" disabled>
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item>
-        </el-menu>
-      </el-aside>
-      <el-main>
-        <el-button @click="delUserById">123</el-button>
-      </el-main>
-    </el-container>
-  </el-container>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
+  <div class="homepage-hero-module">
+    <div class="video-container">
+      <div :style="fixStyle" class="filter">
+        <div style="width: 400px; margin: 100px auto">
+          <div style="font-size: 30px; text-align: center; padding: 30px 0; color: #333">欢迎登录</div>
+          <el-form ref="form" :model="form" size="normal" :rules="rules">
+            <el-form-item prop="username">
+              <el-input prefix-icon="el-icon-user-solid" v-model="form.username" placeholder="请输入账号"></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input prefix-icon="el-icon-lock" v-model="form.password" show-password placeholder="请输入密码"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <div style="display: flex">
+                <el-input prefix-icon="el-icon-key" v-model="form.validCode" style="width: 50%;" placeholder="请输入验证码"></el-input>
+                <ValidCode @input="createValidCode" />
+              </div>
+            </el-form-item>
+            <!--            <el-form-item>-->
+            <!--              <el-radio v-model="form.role" :label="1" style="color: white">管理员</el-radio>-->
+            <!--              <el-radio v-model="form.role" :label="2" style="color: white">普通用户</el-radio>-->
+            <!--            </el-form-item>-->
+            <el-form-item>
+              <el-button style="width: 100%" type="primary" @click="login">登 录</el-button>
+            </el-form-item>
+            <el-form-item><el-button type="text" @click="$router.push('/register')">前往注册 >> </el-button></el-form-item>
+          </el-form>
+        </div>
+      </div>
+      <video :style="fixStyle" autoplay loop muted class="fillWidth" v-on:canplay="canplay">
+        <source src="../assets/sea.mp4" type="video/mp4"/>
+        浏览器不支持 video 标签，建议升级浏览器。
+      </video>
+    </div>
+  </div>
 
 </template>
 
@@ -98,36 +45,127 @@ import {activeRouter} from "@/utils/permission";
 export default {
   name: "Login",
   components: {
-
+    ValidCode,
   },
   data() {
     return {
-      isCollapse: true
+      vedioCanPlay: false,
+      fixStyle: '',
+      form: {role: 1},
+      rules: {
+        username: [
+          {required: true, message: '请输入用户名', trigger: 'blur'},
+        ],
+        password: [
+          {required: true, message: '请输入密码', trigger: 'blur'},
+        ],
+      },
+      validCode: ''
+      // 加背景图片
+      // bg: {
+      //   backgroundImage: "url(" + require("@/assets/bg.jpg") + ")",
+      //   backgroundRepeat: "no-repeat",
+      //   backgroundSize: "100% 100%"
+      // }
     }
   },
+  mounted() {
+    sessionStorage.removeItem("user")
 
-  methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    delUserById(){
-      const  id =1
-      request.delete("/user/"+id).then(res=>{
-        console.log(res.data)
-      })
-
+    window.onresize = () => {
+      const windowWidth = document.body.clientWidth
+      const windowHeight = document.body.clientHeight
+      const windowAspectRatio = windowHeight / windowWidth
+      let videoWidth
+      let videoHeight
+      if (windowAspectRatio < 0.5625) {
+        videoWidth = windowWidth
+        videoHeight = videoWidth * 0.5625
+        this.fixStyle = {
+          height: windowWidth * 0.5625 + 'px',
+          width: windowWidth + 'px',
+          'margin-bottom': (windowHeight - videoHeight) / 2 + 'px',
+          'margin-left': 'initial'
+        }
+      } else {
+        videoHeight = windowHeight
+        videoWidth = videoHeight / 0.5625
+        this.fixStyle = {
+          height: windowHeight + 'px',
+          width: windowHeight / 0.5625 + 'px',
+          'margin-left': (windowWidth - videoWidth) / 2 + 'px',
+          'margin-bottom': 'initial'
+        }
+      }
     }
+    window.onresize()
+  },
+  methods: {
+    canplay() {
+      this.vedioCanPlay = true
+    },
+    // 接收验证码组件提交的 4位验证码
+    createValidCode(data) {
+      this.validCode = data
+    },
+    login () {
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          if (!this.form.validCode) {
+            this.$message.error("请填写验证码")
+            return
+          }
+          if(this.form.validCode.toLowerCase() !== this.validCode.toLowerCase()) {
+            this.$message.error("验证码错误")
+            return
+          }
+          request.post("/user/login", this.form).then(res => {
+            if (res.code === '0') {
+              this.$message({
+                type: "success",
+                message: "登录成功"
+              })
+              sessionStorage.setItem("user", JSON.stringify(res.data))  // 缓存用户信息
 
+              // 登录成功的时候更新当前路由
+              activeRouter()
+              this.$router.push("/")  //登录成功之后进行页面的跳转，跳转到主页
+
+            } else {
+              this.$message({
+                type: "error",
+                message: res.msg
+              })
+            }
+          })
+        }
+      })
+    }
   }
 }
 </script>
 
 <style scoped>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
+.homepage-hero-module,
+.video-container {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.video-container .poster img{
+  z-index: 0;
+  position: absolute;
+}
+
+.video-container .filter {
+  z-index: 1;
+  position: absolute;
+  /*background: rgba(0, 0, 0, 0.4);*/
+  width: 100%;
+}
+
+.fillWidth {
+  width: 100%;
 }
 </style>

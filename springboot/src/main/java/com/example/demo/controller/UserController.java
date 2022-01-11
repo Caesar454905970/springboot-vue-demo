@@ -48,10 +48,18 @@ public class UserController {
             wrapper.like(User::getNickName,search);
         }
         //搜索条件为空，返回所有的信息
-        Page<User> userPage = userMapper.selectPage(new Page<>(pageNum,pageSize),wrapper );
+
+        //默认使用mybatisplus
+//        Page<User> userPage = userMapper.selectPage(new Page<>(pageNum,pageSize),wrapper );
+        //自定义使用
+        Page<User> userPage = userMapper.findPage(new Page<>(pageNum,pageSize) );
 
         return Result.success(userPage);
     }
+
+
+
+
 
     //根据id删除对应的用户:逻辑删除（硬删除；实际开发中，最好不要使用；使用软删除）
     @DeleteMapping("/{id}")

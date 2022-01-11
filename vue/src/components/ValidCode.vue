@@ -13,6 +13,7 @@
 </template>
 
 <script>
+// 验证码组件
 export default {
   name: 'ValidCode',
   model: {
