@@ -47,8 +47,6 @@ public class FileController  {
         return Result.success("http://"+ip+":"+port+"/files/"+flag); //返回结果url
     }
 
-
-
     /**
      * 富文本文件上传接口
      * @param file
