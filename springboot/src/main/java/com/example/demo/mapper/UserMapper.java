@@ -9,4 +9,5 @@ public interface UserMapper extends BaseMapper<User> {
 
     //一对多查询
     Page<User> findPage(Page<User> page,@Param("nickName") String nickName);
+
 }

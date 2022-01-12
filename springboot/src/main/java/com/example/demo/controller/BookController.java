@@ -24,7 +24,7 @@ public class BookController {
 
 
 
-    //02-新增新闻
+    //02-新增
     @PostMapping
     public Result<?> save(@RequestBody Book Book){ //拿到的前端对象，映射成数据库的实体
         BookMapper.insert(Book);//插入数据库
