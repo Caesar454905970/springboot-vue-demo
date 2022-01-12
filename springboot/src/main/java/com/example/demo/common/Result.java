@@ -1,5 +1,9 @@
 package com.example.demo.common;
 
+/**
+ * 请求返回统一进行封装
+ * @param <T>
+ */
 public class Result<T> {
     private String code;
     private String msg;

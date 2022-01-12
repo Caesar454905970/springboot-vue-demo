@@ -19,13 +19,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/files")
 public class FileController  {
-
-    //获取后端服务端口
-    @Value("${server.port}")
-    private String port;
-    //获取后端服务IP
-    @Value("${file.ip}")
-    private String ip;
+//
+//    //获取后端服务端口
+//    @Value("${server.port}")
+//    private String port;
+//    //获取后端服务IP
+//    @Value("${file.ip}")
+//    private String ip;
 
 
     /**
@@ -44,7 +44,7 @@ public class FileController  {
         String rootFilePath = System.getProperty("user.dir")+"/springboot/src/main/resources/files/"+flag+"_" + originalFilename;
         //前端获取的字节流写入
         FileUtil.writeBytes(file.getBytes(),rootFilePath); //把文件写入到上传的路径
-        return Result.success("http://"+ip+":"+port+"/files/"+flag); //返回结果url
+        return Result.success("http://"+"localhost"+":"+"9090"+"/files/"+flag); //返回结果url
     }
 
     /**
@@ -68,7 +68,7 @@ public class FileController  {
         }
         //前端获取的字节流写入
         FileUtil.writeBytes(file.getBytes(),rootFilePath); //把文件写入到上传的路径
-        String url = saveFile.getPath(); Result.success("http://"+ip+":"+port+"/files/"+flag); //返回结果url
+        String url = saveFile.getPath(); Result.success("http://"+"localhost"+":"+"9090"+"/files/"+flag); //返回结果url
 
         //返回特定的json字符串格式
   /*

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 //数据库表
-@TableName("user")
+@TableName("book")
 @Data
 public class Book {
     @TableId(type= IdType.AUTO) //定义数据库ID自增长
@@ -18,7 +18,10 @@ public class Book {
     private String name;
     private BigDecimal price;
     private String author;
+
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8") //格式化时间
     private Date createTime;
-    private Date cover;  //文件上传的地址
+
+    private String cover;  //文件上传的地址
+    private String userId;
 }

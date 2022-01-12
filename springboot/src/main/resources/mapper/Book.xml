@@ -16,11 +16,15 @@
             <result column="b_id" property="id" />
             <result column="b_name" property="name" />
             <result column="b_price" property="price" />
+            <result column="b_author" property="author" />
+            <result column="b_create_time" property="createTime" />
+            <result column="b_cover" property="cover" />
+            <result column="b_user_id" property="userId" />
         </collection>
     </resultMap>
 <!--    as后面的缩写要和result中的完全一致-->
     <select id="findPage" resultMap="userMap">
-        SELECT `user`.* ,book.id as b_id, book.name as b_name,book.price as b_price from `user`
+        SELECT `user`.* ,book.id as b_id, book.name as b_name,book.price as b_price,book.author as b_author,book.create_time as b_create_time,book.cover as b_cover,book.user_id as b_user_id from `user`
         left join book on user.id = book.user_id where `user`.nick_name like concat('%', #{nickName}, '%')
     </select>
 </mapper>

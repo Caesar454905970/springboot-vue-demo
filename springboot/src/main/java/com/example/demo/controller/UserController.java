@@ -52,8 +52,7 @@ public class UserController {
         //默认使用mybatisplus
 //        Page<User> userPage = userMapper.selectPage(new Page<>(pageNum,pageSize),wrapper );
         //自定义使用
-        Page<User> userPage = userMapper.findPage(new Page<>(pageNum,pageSize) );
-
+        Page<User> userPage = userMapper.findPage(new Page<>(pageNum,pageSize) ,search);
         return Result.success(userPage);
     }
 
